@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>南京中考冲刺 - 祝你金榜题名</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(180deg, rgba(0,212,255,0.1) 0%, transparent 100%);
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .countdown-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px 30px;
+            min-width: 100px;
+        }
+        .countdown-item .number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        .countdown-item .label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .exam-date {
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin: 60px 0 40px;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .subjects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+        .subject-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .subject-card .icon { font-size: 3rem; margin-bottom: 15px; }
+        .subject-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+        .subject-card p { color: #888; font-size: 0.95rem; line-height: 1.6; }
+        .subject-card .topics {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .subject-card .topic {
+            background: rgba(0,212,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #00d4ff;
+        }
+        
+        .tips-section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 60px 0;
+        }
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .tip-card {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        .tip-card .tip-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .tip-card h4 { margin-bottom: 8px; }
+        .tip-card p { color: #aaa; font-size: 0.9rem; line-height: 1.5; }
+        
+        .motivation {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(0,212,255,0.2));
+            border-radius: 24px;
+            margin: 60px 0;
+        }
+        .motivation h2 { font-size: 2.2rem; margin-bottom: 20px; }
+        .motivation p { font-size: 1.1rem; color: #ccc; max-width: 600px; margin: 0 auto 30px; }
+        .motivation .quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #f59e0b;
+            margin-top: 20px;
+        }
+        
+        .exam-rules {
+            background: rgba(245,158,11,0.1);
+            border: 1px solid rgba(245,158,11,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        .exam-rules h3 { color: #f59e0b; margin-bottom: 20px; font-size: 1.3rem; }
+        .rules-list { list-style: none; }
+        .rules-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(245,158,11,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .rules-list li:last-child { border-bottom: none; }
+        .rules-list .rule-icon { font-size: 1.3rem; }
+        
+        .quiz-section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 60px 0;
+        }
+        .quiz-card {
+            background: rgba(0,212,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+        .quiz-question {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .quiz-options {
+            display: grid;
+            gap: 12px;
+        }
+        .quiz-option {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .quiz-option:hover {
+            background: rgba(0,212,255,0.2);
+            border-color: #00d4ff;
+        }
+        .quiz-option.correct {
+            background: rgba(34,197,94,0.3);
+            border-color: #22c55e;
+        }
+        .quiz-option.wrong {
+            background: rgba(239,68,68,0.3);
+            border-color: #ef4444;
+        }
+        .quiz-result {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+        .quiz-result.show { display: block; }
+        .quiz-result .score { font-size: 2rem; color: #22c55e; }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 60px;
+        }
+        footer a { color: #00d4ff; text-decoration: none; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .countdown { flex-wrap: wrap; }
+            .countdown-item { min-width: 80px; padding: 15px 20px; }
+            .countdown-item .number { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <h1>南京中考冲刺</h1>
+        <p class="subtitle">天道酬勤，祝每一位考生金榜题名</p>
+        
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="number" id="days">--</div>
+                <div class="label">天</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="hours">--</div>
+                <div class="label">时</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="minutes">--</div>
+                <div class="label">分</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="seconds">--</div>
+                <div class="label">秒</div>
+            </div>
+        </div>
+        
+        <div class="exam-date">2026年南京中考 · 6月18日-20日</div>
+    </section>
+    
+    <div class="container">
+        <h2 class="section-title">科目复习</h2>
+        <div class="subjects">
+            <div class="subject-card" onclick="showSubject('chinese')">
+                <div class="icon">语文</div>
+                <h3>语文</h3>
+                <p>名著阅读、古诗文、现代文阅读、作文技巧</p>
+                <div class="topics">
+                    <span class="topic">作文</span>
+                    <span class="topic">古诗</span>
+                    <span class="topic">阅读</span>
+                </div>
+            </div>
+            <div class="subject-card" onclick="showSubject('math')">
+                <div class="icon">数学</div>
+                <h3>数学</h3>
+                <p>代数、几何、函数、综合压轴题解题思路</p>
+                <div class="topics">
+                    <span class="topic">函数</span>
+                    <span class="topic">几何</span>
+                    <span class="topic">概率</span>
+                </div>
+            </div>
+            <div class="subject-card" onclick="showSubject('english')">
+                <div class="icon">英语</div>
+                <h3>英语</h3>
+                <p>语法专项、阅读理解、写作模板、词汇速记</p>
+                <div class="topics">
+                    <span class="topic">语法</span>
+                    <span class="topic">作文</span>
+                    <span class="topic">阅读</span>
+                </div>
+            </div>
+            <div class="subject-card" onclick="showSubject('physics')">
+                <div class="icon">物理</div>
+                <h3>物理</h3>
+                <p>力学、电学、光学、实验探究题突破</p>
+                <div class="topics">
+                    <span class="topic">力学</span>
+                    <span class="topic">电学</span>
+                    <span class="topic">实验</span>
+                </div>
+            </div>
+            <div class="subject-card" onclick="showSubject('chemistry')">
+                <div class="icon">化学</div>
+                <h3>化学</h3>
+                <p>方程式、实验操作、推断题、计算技巧</p>
+                <div class="topics">
+                    <span class="topic">方程式</span>
+                    <span class="topic">实验</span>
+                    <span class="topic">推断</span>
+                </div>
+            </div>
+            <div class="subject-card" onclick="showSubject('politics')">
+                <div class="icon">道法</div>
+                <h3>道德与法治</h3>
+                <p>时政热点、答题模板、知识点归纳</p>
+                <div class="topics">
+                    <span class="topic">时政</span>
+                    <span class="topic">概念</span>
+                    <span class="topic">分析</span>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">考试须知</h2>
+        <div class="exam-rules">
+            <h3>南京市中考重要提醒</h3>
+            <ul class="rules-list">
+                <li><span class="rule-icon">📅</span>考试时间：6月18日-20日（周三至周五）</li>
+                <li><span class="rule-icon">📍</span>考试地点：以准考证为准，提前踩点</li>
+                <li><span class="rule-icon">🕐</span>入场时间：每科开考前45分钟入场</li>
+                <li><span class="rule-icon">🎒</span>必带物品：准考证、2B铅笔、黑色签字笔、橡皮、作图工具</li>
+                <li><span class="rule-icon">📵</span>严禁携带：手机、电子手表、计算器（除数学学科规定外）</li>
+                <li><span class="rule-icon">⏰</span>开考15分钟后不得入场</li>
+                <li><span class="rule-icon">✍️</span>考前准备：早睡早起、饮食清淡、放松心态</li>
+            </ul>
+        </div>
+        
+        <h2 class="section-title">答题技巧</h2>
+        <div class="tips-section">
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <span class="tip-icon">⏱️</span>
+                    <div>
+                        <h4>时间分配</h4>
+                        <p>按分值比例分配时间，不要在某题上过度纠缠</p>
+                    </div>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">📖</span>
+                    <div>
+                        <h4>先易后难</h4>
+                        <p>先把能拿的分拿到手，再回头攻难题</p>
+                    </div>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">✏️</span>
+                    <div>
+                        <h4>规范答题</h4>
+                        <p>字迹清晰、步骤完整、格式规范</p>
+                    </div>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">🔍</span>
+                    <div>
+                        <h4>检查复核</h4>
+                        <p>留出5-10分钟检查，确保无误再交卷</p>
+                    </div>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">🆘</span>
+                    <div>
+                        <h4>遇难题不慌</h4>
+                        <p>深呼吸，换个角度思考，或者先跳过</p>
+                    </div>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">✅</span>
+                    <div>
+                        <h4>选择题技巧</h4>
+                        <p>排除法、代入法、逆推法灵活运用</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">中考真题演练</h2>
+        <div class="quiz-section">
+            <div class="quiz-card">
+                <div class="quiz-question" id="quiz-question">加载中...</div>
+                <div class="quiz-options" id="quiz-options"></div>
+                <div class="quiz-result" id="quiz-result">
+                    <div class="score" id="quiz-score"></div>
+                    <p id="quiz-feedback"></p>
+                    <button onclick="nextQuestion()" style="margin-top:15px;padding:10px 30px;background:linear-gradient(90deg,#00d4ff,#7c3aed);border:none;border-radius:20px;color:white;cursor:pointer;">下一题</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="motivation">
+            <h2>💪 中考加油</h2>
+            <p>三年的汗水，终将在六月绽放。无论结果如何，你们都是最棒的！</p>
+            <p>乾坤未定，你我皆是黑马</p>
+            <div class="quote">"长风破浪会有时，直挂云帆济沧海"</div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>南京中考冲刺 · 祝你金榜题名</p>
+        <p>© 2026 基于 GitHub 开源项目构建 | <a href="https://github.com/lxztry">访问开发者</a></p>
+    </footer>
+    
+    <script>
+        // 倒计时
+        const examDate = new Date('2026-06-18T09:00:00');
+        
+        function updateCountdown() {
+            const now = new Date();
+            const diff = examDate - now;
+            
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            }
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // 题目数据
+        const questions = [
+            {
+                question: "《红楼梦》中"金陵十二钗"指的是多少位女子？",
+                options: ["10位", "11位", "12位", "13位"],
+                answer: 2,
+                explanation: "金陵十二钗指的是12位女子，分别是林黛玉、薛宝钗、贾元春、贾探春等"
+            },
+            {
+                question: "已知等腰三角形的底角为50°，则顶角为多少度？",
+                options: ["60°", "70°", "80°", "90°"],
+                answer: 2,
+                explanation: "三角形内角和为180°，两个底角各50°，所以顶角=180°-50°×2=80°"
+            },
+            {
+                question: "英语中'although'的中文意思是？",
+                options: ["因为", "虽然", "如果", "但是"],
+                answer: 1,
+                explanation: "'although'是一个从属连词，意为'虽然，尽管'"
+            },
+            {
+                question: "物理学中，力的单位是什么？",
+                options: ["瓦特(W)", "焦耳(J)", "牛顿(N)", "帕斯卡(Pa)"],
+                answer: 2,
+                explanation: "力的单位是牛顿(N)，以科学家牛顿命名"
+            },
+            {
+                question: "化学方程式2H₂ + O₂ → 2H₂O表示的意义是？",
+                options: ["4份氢气和1份氧气反应", "2份氢气和2份氧气反应", "2份氢气和1份氧气反应", "1份氢气和2份氧气反应"],
+                answer: 2,
+                explanation: "化学计量数表示各物质的质量比关系"
+            },
+            {
+                question: "我国第一部纪传体通史是？",
+                options: ["《汉书》", "《史记》", "《资治通鉴》", "《后汉书》"],
+                answer: 1,
+                explanation: "《史记》是西汉司马迁所著，是我国第一部纪传体通史"
+            }
+        ];
+        
+        let currentQuestion = 0;
+        
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('quiz-question').textContent = `Q${currentQuestion + 1}: ${q.question}`;
+            
+            const optionsDiv = document.getElementById('quiz-options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'quiz-option';
+                btn.textContent = String.fromCharCode(65 + idx) + '. ' + opt;
+                btn.onclick = () => checkAnswer(idx);
+                optionsDiv.appendChild(btn);
+            });
+            
+            document.getElementById('quiz-result').classList.remove('show');
+        }
+        
+        function checkAnswer(idx) {
+            const q = questions[currentQuestion];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach((opt, i) => {
+                opt.style.pointerEvents = 'none';
+                if (i === q.answer) {
+                    opt.classList.add('correct');
+                } else if (i === idx && idx !== q.answer) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.classList.add('show');
+            
+            const isCorrect = idx === q.answer;
+            document.getElementById('quiz-score').textContent = isCorrect ? '回答正确！' : '回答错误';
+            document.getElementById('quiz-score').style.color = isCorrect ? '#22c55e' : '#ef4444';
+            document.getElementById('quiz-feedback').textContent = q.explanation;
+        }
+        
+        function nextQuestion() {
+            currentQuestion = (currentQuestion + 1) % questions.length;
+            loadQuestion();
+        }
+        
+        function showSubject(subject) {
+            alert('科目详情页开发中，敬请期待！\n\n科目：' + subject);
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
