@@ -2,22 +2,2976 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <!-- CDN-REFRESH-20260809C - v2 JS files -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>南京中考闯关 🏆</title>
-  <link rel="stylesheet" href="css/style.css?v=20260809c">
+  <style>
+/* 南京中考闯关App - 样式 */
+
+/* ===== 基础样式 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.3);
+  --success: #10b981;
+  --success-glow: rgba(16, 185, 129, 0.3);
+  --danger: #ef4444;
+  --warning: #f59e0b;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+/* ===== 首页样式 ===== */
+.home-view {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 状态栏 */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.streak-badge {
+  background: var(--bg-card);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.streak-badge.active {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+}
+
+/* 经验条 */
+.xp-bar {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.xp-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.xp-track {
+  height: 12px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* 统计卡片 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 区域标题 */
+.section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quest-count {
+  background: var(--accent);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+/* 薄弱点列表 */
+.weak-list {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.weak-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--bg-card);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.weak-item:last-child {
+  border-bottom: none;
+}
+
+.weak-item:hover {
+  background: var(--bg-card);
+}
+
+.weak-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+.weak-name {
+  flex: 1;
+  font-size: 14px;
+}
+
+.weak-rate {
+  background: var(--danger);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+/* 任务列表 */
+.quest-list {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.quest-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--bg-card);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.quest-item:last-child {
+  border-bottom: none;
+}
+
+.quest-item:hover {
+  background: var(--bg-card);
+}
+
+.quest-item.completed {
+  opacity: 0.6;
+}
+
+.quest-icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.quest-info {
+  flex: 1;
+}
+
+.quest-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.quest-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 4px 0;
+}
+
+.quest-progress-bar {
+  height: 4px;
+  background: var(--bg-primary);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: var(--success);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.quest-xp {
+  background: var(--accent);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 科目网格 */
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.subject-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.subject-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-color);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.subject-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.subject-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.subject-topics {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* 底部导航 */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  border-top: 1px solid var(--bg-card);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.2s;
+  color: var(--text-secondary);
+}
+
+.nav-item.active {
+  color: var(--accent);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.nav-icon {
+  font-size: 22px;
+}
+
+.nav-label {
+  font-size: 11px;
+}
+
+/* ===== 题目页面 ===== */
+.quiz-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.quiz-header {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.quiz-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.quiz-score {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.quiz-progress-bar {
+  height: 6px;
+  background: var(--bg-card);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #8b5cf6);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* 题目容器 */
+.question-container {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.question-type-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.question-text {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+/* 选项列表 */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  padding: 14px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.option-item:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.option-item.correct-option {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.option-item.wrong-option {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.option-letter {
+  width: 32px;
+  height: 32px;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.option-text {
+  font-size: 15px;
+}
+
+/* 填空题输入 */
+.input-area {
+  display: flex;
+  gap: 12px;
+}
+
+.answer-input {
+  flex: 1;
+  background: var(--bg-card);
+  border: 2px solid var(--bg-card);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.answer-input:focus {
+  border-color: var(--accent);
+}
+
+.submit-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.submit-btn:hover {
+  transform: scale(1.05);
+}
+
+/* 结果区域 */
+.result-area {
+  margin-top: 16px;
+}
+
+.result-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-card.correct {
+  border: 2px solid var(--success);
+}
+
+.result-card.wrong {
+  border: 2px solid var(--danger);
+}
+
+.result-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.result-text {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.result-card.correct .result-text {
+  color: var(--success);
+}
+
+.result-card.wrong .result-text {
+  color: var(--danger);
+}
+
+.answer-compare {
+  background: var(--bg-card);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.your-answer {
+  color: var(--danger);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.correct-answer {
+  color: var(--success);
+  font-size: 14px;
+}
+
+.explanation {
+  background: var(--bg-card);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+}
+
+.explanation strong {
+  color: var(--text-primary);
+}
+
+.next-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.next-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== 结果页面 ===== */
+.result-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  animation: fadeIn 0.3s ease;
+}
+
+.result-summary {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.result-grade {
+  font-size: 80px;
+  margin-bottom: 16px;
+}
+
+.result-summary h2 {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.result-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.result-stat {
+  text-align: center;
+}
+
+.result-stat .stat-value {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.result-stat .stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.result-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.action-btn {
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+}
+
+.action-btn.primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+}
+
+.action-btn.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+/* ===== 专题选择页面 ===== */
+.topics-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.view-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.back-btn {
+  background: var(--bg-secondary);
+  border: none;
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: var(--bg-card);
+}
+
+.view-header h2 {
+  font-size: 20px;
+}
+
+.topic-list {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.topic-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--bg-card);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.topic-item:last-child {
+  border-bottom: none;
+}
+
+.topic-item:hover {
+  background: var(--bg-card);
+}
+
+.topic-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-right: 16px;
+}
+
+.topic-info {
+  flex: 1;
+}
+
+.topic-name {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.topic-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.topic-arrow {
+  color: var(--text-secondary);
+  font-size: 18px;
+}
+
+/* ===== 进度页面 ===== */
+.progress-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.progress-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.progress-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.progress-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.progress-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.level-section {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.level-section h3 {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.level-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.level-bar {
+  height: 12px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.level-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+.level-next {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.subject-progress {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.subject-progress h3 {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.subject-progress-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.subject-progress-item:last-child {
+  margin-bottom: 0;
+}
+
+.subject-progress-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 80px;
+}
+
+.subject-progress-info .subject-icon {
+  font-size: 18px;
+}
+
+.subject-progress-info .subject-name {
+  font-size: 13px;
+}
+
+.subject-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.subject-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.subject-progress-value {
+  font-size: 13px;
+  font-weight: 600;
+  width: 40px;
+  text-align: right;
+}
+
+.back-home-btn {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.back-home-btn:hover {
+  transform: scale(1.02);
+}
+
+/* ===== 成就页面 ===== */
+.achievements-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.achievement-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.achievement-card.unlocked {
+  border-color: var(--warning);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+.achievement-card.locked {
+  opacity: 0.5;
+}
+
+.achievement-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.achievement-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.achievement-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.achievement-badge {
+  background: var(--warning);
+  color: white;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.achievement-condition {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ===== 错题本页面 ===== */
+.wrongbook-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  font-size: 60px;
+  margin-bottom: 16px;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.wrong-list {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.wrong-item {
+  padding: 16px;
+  border-bottom: 1px solid var(--bg-card);
+}
+
+.wrong-item:last-child {
+  border-bottom: none;
+}
+
+.wrong-question {
+  font-size: 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.wrong-answer {
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.wrong-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.wrong-value {
+  color: var(--success);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.wrong-times {
+  font-size: 11px;
+  color: var(--danger);
+  margin-bottom: 8px;
+}
+
+.review-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.review-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== 提示 ===== */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.achievement-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  animation: slideDown 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translate(-50%, -30px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.achievement-toast-icon {
+  font-size: 28px;
+}
+
+.achievement-toast-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.achievement-toast-desc {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+  </style>
 </head>
 <body>
   <div id="app">
-    <div style="display: flex; align-items: center; justify-content: center; min-height: 80vh;">
-      <div style="text-align: center;">
-        <div style="font-size: 60px; margin-bottom: 16px;">📚</div>
-        <div style="color: #94a3b8;">加载中...</div>
+    <div style="display:flex;align-items:center;justify-content:center;min-height:80vh;">
+      <div style="text-align:center;">
+        <div style="font-size:60px;margin-bottom:16px;">📚</div>
+        <div style="color:#94a3b8;">加载中...</div>
       </div>
     </div>
   </div>
-  <script src="js/questions.v2.js?t=20260809c"></script>
-  <script src="js/game.v2.js?t=20260809c"></script>
-  <script src="js/app.v2.js?t=20260809c"></script>
+<script>
+// 南京中考闯关题库 - 化学篇
+// 从知识库内容提取
+
+const QUESTION_BANK = {
+  chemistry: {
+    name: "化学",
+    icon: "🧪",
+    color: "#10b981",
+    topics: {
+      basics: {
+        name: "物质变化与分类",
+        questions: [
+          {
+            id: "ch_b_001",
+            type: "choice",
+            question: "下列变化属于化学变化的是？",
+            options: ["水蒸发", "铁生锈", "玻璃破碎", "冰雪融化"],
+            answer: 1,
+            explanation: "铁生锈有新物质Fe₂O₃生成，属于化学变化"
+          },
+          {
+            id: "ch_b_002",
+            type: "choice",
+            question: "下列物质属于混合物的是？",
+            options: ["蒸馏水", "氧气", "空气", "二氧化碳"],
+            answer: 2,
+            explanation: "空气由多种气体混合而成，是混合物"
+          },
+          {
+            id: "ch_b_003",
+            type: "choice",
+            question: "下列物质的颜色为蓝色的是？",
+            options: ["CuO", "Fe₂O₃", "CuSO₄溶液", "KMnO₄"],
+            answer: 2,
+            explanation: "含Cu²⁺的溶液呈蓝色，如CuSO₄溶液"
+          },
+          {
+            id: "ch_b_004",
+            type: "choice",
+            question: "下列金属活动性顺序正确的是？",
+            options: ["Ag Zn Fe", "Fe Cu Zn", "Na Ca Mg", "Hg Ag Au"],
+            answer: 2,
+            explanation: "K Ca Na Mg Al Zn Fe Sn Pb (H) Cu Hg Ag Pt Au"
+          },
+          {
+            id: "ch_b_005",
+            type: "input",
+            question: "填写化学方程式：2H₂O₂ —(MnO₂)→ ?",
+            answer: "2H₂O + O₂↑",
+            explanation: "过氧化氢在二氧化锰催化下分解为水和氧气"
+          }
+        ]
+      },
+      equations: {
+        name: "化学方程式",
+        questions: [
+          {
+            id: "ch_e_001",
+            type: "choice",
+            question: "实验室制取氧气的反应中，哪个需要加热？",
+            options: ["2H₂O₂ → 2H₂O + O₂↑", "2KMnO₄ → K₂MnO₄ + MnO₂ + O₂↑", "2KClO₃ → 2KCl + 3O₂↑", "Zn + H₂SO₄ → ZnSO₄ + H₂↑"],
+            answer: 1,
+            explanation: "高锰酸钾制氧需要加热，催化剂和金属与酸反应不需要加热"
+          },
+          {
+            id: "ch_e_002",
+            type: "input",
+            question: "实验室制取CO₂的化学方程式：CaCO₃ + ? → CaCl₂ + H₂O + CO₂↑",
+            answer: "2HCl",
+            explanation: "石灰石与稀盐酸反应生成氯化钙、水和二氧化碳"
+          },
+          {
+            id: "ch_e_003",
+            type: "choice",
+            question: "铁与硫酸铜溶液反应的现象是？",
+            options: [
+              "铁表面产生气泡，溶液变浅绿色",
+              "铁表面覆盖红色固体，溶液由蓝色变浅绿色",
+              "铁溶解，溶液变蓝色",
+              "无明显现象"
+            ],
+            answer: 1,
+            explanation: "Fe + CuSO₄ → FeSO₄ + Cu，铁表面镀铜，溶液变色"
+          },
+          {
+            id: "ch_e_004",
+            type: "input",
+            question: "氢氧化钠变质的化学方程式：2NaOH + CO₂ → ?",
+            answer: "Na₂CO₃ + H₂O",
+            explanation: "NaOH与空气中CO₂反应生成Na₂CO₃和H₂O"
+          },
+          {
+            id: "ch_e_005",
+            type: "choice",
+            question: "下列方程式书写正确的是？",
+            options: [
+              "Mg + O₂ → MgO₂",
+              "S + O₂ → SO₂↑",
+              "2Fe + O₂ → 2FeO",
+              "C + O₂ → CO₂"
+            ],
+            answer: 3,
+            explanation: "C + O₂ → CO₂（点燃），其他要么化学式错，要么条件/符号漏写"
+          }
+        ]
+      },
+      experiments: {
+        name: "实验技能",
+        questions: [
+          {
+            id: "ch_ex_001",
+            type: "choice",
+            question: "收集CO₂的方法是？",
+            options: ["排水法", "向上排空气法", "向下排空气法", "都可以"],
+            answer: 1,
+            explanation: "CO₂密度大于空气且能溶于水，只能用向上排空气法"
+          },
+          {
+            id: "ch_ex_002",
+            type: "choice",
+            question: "检验氧气的方法是？",
+            options: [
+              "通入澄清石灰水",
+              "用带火星的木条靠近",
+              "用湿润的红色石蕊试纸",
+              "加入AgNO₃溶液"
+            ],
+            answer: 1,
+            explanation: "氧气能使带火星的木条复燃"
+          },
+          {
+            id: "ch_ex_003",
+            type: "choice",
+            question: "实验室用双氧水制O₂，不需要用到的是？",
+            options: ["试管", "分液漏斗", "酒精灯", "集气瓶"],
+            answer: 2,
+            explanation: "双氧水在MnO₂催化下分解，不需要加热"
+          },
+          {
+            id: "ch_ex_004",
+            type: "choice",
+            question: "下列实验操作正确的是？",
+            options: [
+              "用嘴吹灭酒精灯",
+              "把鼻孔凑近容器闻药品气味",
+              "先撤导管后移酒精灯",
+              "把水直接倒入浓硫酸中"
+            ],
+            answer: 2,
+            explanation: "应先撤导管后移灯（防倒吸），其他都是危险操作"
+          },
+          {
+            id: "ch_ex_005",
+            type: "choice",
+            question: "粗盐提纯的步骤顺序正确的是？",
+            options: [
+              "溶解→过滤→蒸发→加试剂",
+              "溶解→加BaCl₂→过滤→加Na₂CO₃→加HCl→蒸发",
+              "溶解→蒸发→过滤→加试剂",
+              "溶解→加HCl→过滤→蒸发"
+            ],
+            answer: 1,
+            explanation: "正确顺序：溶解→加BaCl₂（除SO₄²⁻）→过滤→加Na₂CO₃（除Ca²⁺/Mg²⁺）→加HCl（除过量碱）→蒸发"
+          }
+        ]
+      },
+      inference: {
+        name: "推断题",
+        questions: [
+          {
+            id: "ch_i_001",
+            type: "choice",
+            question: "某淡黄色粉末在空气中燃烧发出淡蓝色火焰，该粉末是？",
+            options: ["Mg", "S", "P", "Fe"],
+            answer: 1,
+            explanation: "硫粉是淡黄色，在空气中燃烧发出淡蓝色火焰"
+          },
+          {
+            id: "ch_i_002",
+            type: "choice",
+            question: "某蓝色溶液，加入NaOH溶液后产生蓝色沉淀，该溶液中含有？",
+            options: ["Fe²⁺", "Fe³⁺", "Cu²⁺", "Mg²⁺"],
+            answer: 2,
+            explanation: "Cu²⁺与OH⁻生成蓝色Cu(OH)₂沉淀"
+          },
+          {
+            id: "ch_i_003",
+            type: "choice",
+            question: "某无色气体能使澄清石灰水变浑浊，该气体是？",
+            options: ["O₂", "N₂", "CO₂", "H₂"],
+            answer: 2,
+            explanation: "CO₂ + Ca(OH)₂ → CaCO₃↓ + H₂O，现象是浑浊"
+          },
+          {
+            id: "ch_i_004",
+            type: "choice",
+            question: "CaCO₃高温分解的产物是？",
+            options: ["CaO + CO", "CaO + CO₂", "Ca + CO₂", "Ca(OH)₂ + CO₂"],
+            answer: 1,
+            explanation: "CaCO₃高温→CaO + CO₂↑"
+          },
+          {
+            id: "ch_i_005",
+            type: "input",
+            question: "三角关系CaO ⇌ CaCO₃ ⇌ Ca(OH)₂中，Ca(OH)₂ + CO₂ → ?",
+            answer: "CaCO₃↓ + H₂O",
+            explanation: "石灰水与CO₂反应生成碳酸钙沉淀和水"
+          }
+        ]
+      },
+      calculation: {
+        name: "化学计算",
+        questions: [
+          {
+            id: "ch_c_001",
+            type: "choice",
+            question: "H₂SO₄的相对分子质量是？",
+            options: ["98", "96", "100", "102"],
+            answer: 0,
+            explanation: "Mr = 1×2 + 32 + 16×4 = 2+32+64 = 98"
+          },
+          {
+            id: "ch_c_002",
+            type: "choice",
+            question: "NH₄NO₃中N元素的质量分数为？",
+            options: ["17.5%", "28%", "35%", "40%"],
+            answer: 2,
+            explanation: "N% = (14×2)/(14+4+14+48) = 28/80 = 35%"
+          },
+          {
+            id: "ch_c_003",
+            type: "choice",
+            question: "配制100g 10%的NaCl溶液，需要NaCl多少克？",
+            options: ["5g", "10g", "15g", "20g"],
+            answer: 1,
+            explanation: "溶质质量 = 溶液质量 × 质量分数 = 100g × 10% = 10g"
+          },
+          {
+            id: "ch_c_004",
+            type: "choice",
+            question: "用36g碳完全燃烧，可生成CO₂多少克？",
+            options: ["44g", "88g", "132g", "66g"],
+            answer: 2,
+            explanation: "C + O₂ → CO₂，12:44 = 36:x，x = 132g"
+          },
+          {
+            id: "ch_c_005",
+            type: "input",
+            question: "已知 Fe₂O₃中 Fe 质量分数为 70%，求 Fe₂O₃的相对分子质量（提示：56×2/ Mr = 0.7）",
+            answer: "160",
+            explanation: "56×2/Mr = 0.7 → Mr = 160，验证：Fe₂O₃ = 112+48=160"
+          }
+        ]
+      }
+    }
+  },
+
+  math: {
+    name: "数学",
+    icon: "📐",
+    color: "#3b82f6",
+    topics: {
+      algebra: {
+        name: "代数基础",
+        questions: [
+          {
+            id: "ma_a_001",
+            type: "choice",
+            question: "化简：(a+b)² - (a-b)² = ?",
+            options: ["2a²", "2b²", "4ab", "0"],
+            answer: 2,
+            explanation: "(a+b)²-(a-b)² = (a²+2ab+b²)-(a²-2ab+b²) = 4ab"
+          },
+          {
+            id: "ma_a_002",
+            type: "choice",
+            question: "若方程x² - 5x + k = 0有两个相等的实根，则k = ?",
+            options: ["25/4", "25/2", "4/25", "-25/4"],
+            answer: 0,
+            explanation: "Δ = 25 - 4k = 0 → k = 25/4"
+          },
+          {
+            id: "ma_a_003",
+            type: "input",
+            question: "若一次函数y = kx + b经过(1,3)和(2,5)，则k = ?",
+            answer: "2",
+            explanation: "k = (5-3)/(2-1) = 2"
+          },
+          {
+            id: "ma_a_004",
+            type: "choice",
+            question: "计算：√18 - √8 = ?",
+            options: ["√10", "√2", "2√2", "0"],
+            answer: 1,
+            explanation: "√18 - √8 = 3√2 - 2√2 = √2"
+          },
+          {
+            id: "ma_a_005",
+            type: "choice",
+            question: "不等式2x-1 > 3的解集是？",
+            options: ["x > 1", "x > 2", "x < 1", "x < 2"],
+            answer: 1,
+            explanation: "2x > 4 → x > 2"
+          }
+        ]
+      },
+      geometry: {
+        name: "几何",
+        questions: [
+          {
+            id: "ma_g_001",
+            type: "choice",
+            question: "在直角三角形中，两直角边分别为3和4，则斜边为？",
+            options: ["5", "7", "12", "25"],
+            answer: 0,
+            explanation: "勾股定理：3²+4²=9+16=25，c=5"
+          },
+          {
+            id: "ma_g_002",
+            type: "choice",
+            question: "圆心角为60°的弧长为2π，则圆的半径为？",
+            options: ["2", "3", "6", "12"],
+            answer: 2,
+            explanation: "L = nπr/180 → 2π = 60πr/180 → r = 6"
+          },
+          {
+            id: "ma_g_003",
+            type: "choice",
+            question: "两个相似三角形的相似比为1:3，面积比为？",
+            options: ["1:3", "1:6", "1:9", "3:1"],
+            answer: 2,
+            explanation: "相似比是1:3，面积比是相似比的平方，即1:9"
+          },
+          {
+            id: "ma_g_004",
+            type: "choice",
+            question: "在三角形中，∠A=50°，∠B=60°，则∠C = ?",
+            options: ["60°", "70°", "80°", "90°"],
+            answer: 1,
+            explanation: "三角形内角和180°，∠C = 180-50-60 = 70°"
+          },
+          {
+            id: "ma_g_005",
+            type: "input",
+            question: "平行四边形相邻两边分别为5和7，夹角为60°，其面积为？",
+            answer: "35√3/2",
+            explanation: "S = a×b×sinθ = 5×7×sin60° = 35×√3/2"
+          }
+        ]
+      },
+      functions: {
+        name: "函数",
+        questions: [
+          {
+            id: "ma_f_001",
+            type: "choice",
+            question: "二次函数y = x² - 4x + 3的顶点坐标是？",
+            options: ["(2, -1)", "(2, 1)", "(-2, -1)", "(-2, 1)"],
+            answer: 0,
+            explanation: "顶点x = -b/2a = 4/2 = 2，y = 4-8+3 = -1"
+          },
+          {
+            id: "ma_f_002",
+            type: "choice",
+            question: "反比例函数y = k/x的图像经过点(2, 3)，则k = ?",
+            options: ["5", "6", "1.5", "0.67"],
+            answer: 1,
+            explanation: "代入得3 = k/2 → k = 6"
+          },
+          {
+            id: "ma_f_003",
+            type: "choice",
+            question: "二次函数y = -x² + 2x + 3的开口方向是？",
+            options: ["向上", "向下", "不确定", "平行于x轴"],
+            answer: 1,
+            explanation: "二次项系数a = -1 < 0，所以开口向下"
+          },
+          {
+            id: "ma_f_004",
+            type: "choice",
+            question: "一次函数y = -2x + 5，x=1时的函数值是？",
+            options: ["3", "7", "-7", "5"],
+            answer: 0,
+            explanation: "y = -2×1 + 5 = 3"
+          },
+          {
+            id: "ma_f_005",
+            type: "input",
+            question: "抛物线y = (x-3)² + 2的顶点坐标是？",
+            answer: "(3, 2)",
+            explanation: "顶点式y = a(x-h)² + k，顶点为(h, k) = (3, 2)"
+          }
+        ]
+      },
+      exam_questions: {
+        name: "压轴题",
+        questions: [
+          {
+            id: "ma_eq_001",
+            type: "choice",
+            question: "已知关于x的方程x² - 2mx + m² - 1 = 0有两个实根，则m的取值范围是？",
+            options: ["m > 1", "m ≥ 1", "m为任意实数", "m ≥ -1"],
+            answer: 2,
+            explanation: "Δ = 4m² - 4(m²-1) = 4 > 0，恒成立，m为任意实数"
+          },
+          {
+            id: "ma_eq_002",
+            type: "choice",
+            question: "动点P在边长为2的正方形ABCD的边上运动，PA = x，PA + PC的最小值为？",
+            options: ["2√2", "4", "2√5", "2"],
+            answer: 0,
+            explanation: "当P在对角线交点时，PA+PC最小 = 对角线长 = 2√2"
+          }
+        ]
+      }
+    }
+  },
+
+  chinese: {
+    name: "语文",
+    icon: "📖",
+    color: "#ef4444",
+    topics: {
+      ancient_poetry: {
+        name: "古诗文",
+        questions: [
+          {
+            id: "cn_s_001",
+            type: "choice",
+            question: "《岳阳楼记》中'先天下之忧而忧，后天下之乐而乐'表达了什么情感？",
+            options: ["思乡之情", "爱国忧民", "离愁别绪", "山水之乐"],
+            answer: 1,
+            explanation: "这句话表达了范仲淹以天下为己任的爱国忧民情怀"
+          },
+          {
+            id: "cn_s_002",
+            type: "choice",
+            question: "下列诗句中使用了借代修辞的是？",
+            options: [
+              "烽火连三月，家书抵万金",
+              "明月松间照，清泉石上流",
+              "春蚕到死丝方尽，蜡炬成灰泪始干",
+              "大漠孤烟直，长河落日圆"
+            ],
+            answer: 0,
+            explanation: "'烽火'借代战争，'家书'借代书信，是借代手法"
+          },
+          {
+            id: "cn_s_003",
+            type: "input",
+            question: "《出师表》中'受任于败军之际，奉命于危难之间'说的是谁？",
+            answer: "诸葛亮",
+            explanation: "诸葛亮在刘备兵败后接受托孤重任"
+          },
+          {
+            id: "cn_s_004",
+            type: "choice",
+            question: "下列作家与作品对应错误的是？",
+            options: [
+              "杜甫《茅屋为秋风所破歌》",
+              "苏轼《水调歌头》",
+              "李白《爱莲说》",
+              "王勃《送杜少府之任蜀州》"
+            ],
+            answer: 2,
+            explanation: "《爱莲说》的作者是周敦颐，不是李白"
+          },
+          {
+            id: "cn_s_005",
+            type: "input",
+            question: "补全诗句：但愿人长久，千里共___",
+            answer: "婵娟",
+            explanation: "出自苏轼《水调歌头·明月几时有》"
+          }
+        ]
+      },
+      writing: {
+        name: "作文技巧",
+        questions: [
+          {
+            id: "cn_w_001",
+            type: "choice",
+            question: "中考作文评分标准中，最重要的两项是？",
+            options: [
+              "字数和书写",
+              "立意和语言",
+              "开头和结尾",
+              "修辞和引用"
+            ],
+            answer: 1,
+            explanation: "立意深刻是作文的灵魂，语言优美是得高分的关键"
+          },
+          {
+            id: "cn_w_002",
+            type: "choice",
+            question: "写记叙文时，'细节描写'的作用是？",
+            options: [
+              "凑字数",
+              "使文章更生动具体",
+              "显得文笔好",
+              "没有实际作用"
+            ],
+            answer: 1,
+            explanation: "细节描写能让文章更生动，使读者有画面感"
+          }
+        ]
+      }
+    }
+  },
+
+  english: {
+    name: "英语",
+    icon: "🔤",
+    color: "#8b5cf6",
+    topics: {
+      grammar: {
+        name: "语法",
+        questions: [
+          {
+            id: "en_g_001",
+            type: "choice",
+            question: "The boy ___ the window just now. (break)",
+            options: ["breaks", "broke", "has broken", "will break"],
+            answer: 1,
+            explanation: "just now表示过去，用一般过去时broke"
+          },
+          {
+            id: "en_g_002",
+            type: "choice",
+            question: "Which sentence is correct?",
+            options: [
+              "He asked me that where I lived",
+              "He asked me where did I live",
+              "He asked me where I lived",
+              "He asked me where I live"
+            ],
+            answer: 2,
+            explanation: "宾语从句用陈述语序，主句过去时从句相应过去时"
+          },
+          {
+            id: "en_g_003",
+            type: "choice",
+            question: "___ the windows before you leave. (not forget)",
+            options: [
+              "Don't forget to clean",
+              "Don't forget cleaning",
+              "Not forget to clean",
+              "Don't forget clean"
+            ],
+            answer: 0,
+            explanation: "forget to do表示忘记要做的事，否定用don't forget to do"
+          },
+          {
+            id: "en_g_004",
+            type: "input",
+            question: "If I ___ (be) a bird, I would fly to the sky.",
+            answer: "were",
+            explanation: "虚拟语气中，if I/we were表示与现在事实相反的假设"
+          },
+          {
+            id: "en_g_005",
+            type: "choice",
+            question: "The book ___ by millions of people. (translate)",
+            options: [
+              "is translated",
+              "has translated",
+              "translates",
+              "translated"
+            ],
+            answer: 0,
+            explanation: "book与translate是被动关系，用被动语态be + done"
+          }
+        ]
+      },
+      vocabulary: {
+        name: "词汇",
+        questions: [
+          {
+            id: "en_v_001",
+            type: "choice",
+            question: "The of the book is very interesting.",
+            options: ["content", "contents", "context", "contest"],
+            answer: 1,
+            explanation: "contents表示目录 contents，content表示内容本身"
+          },
+          {
+            id: "en_v_002",
+            type: "choice",
+            question: "He is very ___ about the result of the exam.",
+            options: ["anxious", "eager", "worried", "nervous"],
+            answer: 0,
+            explanation: "be anxious about表示对...感到焦虑/担忧"
+          }
+        ]
+      }
+    }
+  },
+
+  physics: {
+    name: "物理",
+    icon: "⚡",
+    color: "#f59e0b",
+    topics: {
+      mechanics: {
+        name: "力学",
+        questions: [
+          {
+            id: "ph_m_001",
+            type: "choice",
+            question: "一个物体的质量为2kg，受到重力为多少N？（g=10N/kg）",
+            options: ["2N", "5N", "20N", "0.2N"],
+            answer: 2,
+            explanation: "G = mg = 2kg × 10N/kg = 20N"
+          },
+          {
+            id: "ph_m_002",
+            type: "choice",
+            question: "物体在平衡力作用下将？",
+            options: [
+              "做加速运动",
+              "保持静止或匀速直线运动",
+              "做曲线运动",
+              "停止运动"
+            ],
+            answer: 1,
+            explanation: "牛顿第一定律：物体在平衡力下保持静止或匀速直线运动"
+          },
+          {
+            id: "ph_m_003",
+            type: "choice",
+            question: "压强公式P=F/S中，F和S分别代表？",
+            options: [
+              "压力，受力面积",
+              "重力，受力面积",
+              "压力，接触面积",
+              "重力，接触面积"
+            ],
+            answer: 0,
+            explanation: "压强F是压力（不是重力），S是受力面积"
+          },
+          {
+            id: "ph_m_004",
+            type: "choice",
+            question: "物体的动能与什么因素有关？",
+            options: [
+              "只有质量",
+              "只有速度",
+              "质量和速度",
+              "质量和高度"
+            ],
+            answer: 2,
+            explanation: "动能Ek = ½mv²，与质量和速度都有关"
+          },
+          {
+            id: "ph_m_005",
+            type: "input",
+            question: "物体以2m/s的速度匀速行驶10s，通过的路程是___m",
+            answer: "20",
+            explanation: "s = vt = 2m/s × 10s = 20m"
+          }
+        ]
+      },
+      electricity: {
+        name: "电学",
+        questions: [
+          {
+            id: "ph_e_001",
+            type: "choice",
+            question: "欧姆定律的公式是？",
+            options: ["R = U/I", "U = IR", "I = U/R", "以上都是"],
+            answer: 3,
+            explanation: "欧姆定律三个变形公式都正确，可相互推导"
+          },
+          {
+            id: "ph_e_002",
+            type: "choice",
+            question: "两个电阻R₁=4Ω，R₂=6Ω并联，总电阻为？",
+            options: ["10Ω", "2.4Ω", "24Ω", "5Ω"],
+            answer: 1,
+            explanation: "并联1/R = 1/4 + 1/6 = 5/12，R = 12/5 = 2.4Ω"
+          },
+          {
+            id: "ph_e_003",
+            type: "choice",
+            question: "电功率公式P=UI可以推导为？",
+            options: ["P = I²R", "P = U²/R", "两者都可以", "两者都不对"],
+            answer: 2,
+            explanation: "P=UI代入U=IR得P=I²R，代入I=U/R得P=U²/R"
+          },
+          {
+            id: "ph_e_004",
+            type: "choice",
+            question: "家庭电路中，哪个说法正确？",
+            options: [
+              "可以用铜丝代替保险丝",
+              "保险丝应与零线相连",
+              "人站在绝缘体上触摸火线不会触电",
+              "三脚插头的接地脚应连接用电器外壳"
+            ],
+            answer: 3,
+            explanation: "三脚插头的接地脚连接外壳，防止外壳带电触电"
+          },
+          {
+            id: "ph_e_005",
+            type: "input",
+            question: "一段导体两端电压为6V，通过电流为0.5A，导体的电阻为___Ω",
+            answer: "12",
+            explanation: "R = U/I = 6V / 0.5A = 12Ω"
+          }
+        ]
+      }
+    }
+  },
+
+  politics: {
+    name: "道法",
+    icon: "⚖️",
+    color: "#6366f1",
+    topics: {
+      basics: {
+        name: "道德与法治基础",
+        questions: [
+          {
+            id: "po_b_001",
+            type: "choice",
+            question: "公民的基本义务包括？",
+            options: [
+              "只包括依法纳税",
+              "只包括服兵役",
+              "包括维护国家利益、依法纳税、服兵役等",
+              "只有遵守宪法和法律"
+            ],
+            answer: 2,
+            explanation: "公民基本义务包括维护国家利益、依法纳税、服兵役、遵守宪法法律等"
+          },
+          {
+            id: "po_b_002",
+            type: "choice",
+            question: "公民行使监督权的合法途径是？",
+            options: [
+              "聚众闹事",
+              "在网上随意发帖",
+              "通过人大代表、政协委员、政务热线等",
+              "拦截政府车辆"
+            ],
+            answer: 2,
+            explanation: "公民应通过正当渠道行使监督权，如人大代表、热线电话等"
+          },
+          {
+            id: "po_b_003",
+            type: "choice",
+            question: "'法治'的核心是？",
+            options: [
+              "依法治国",
+              "宪法至上",
+              "良法之治",
+              "法律面前人人平等"
+            ],
+            answer: 1,
+            explanation: "宪法是法治的核心，一切法律都不能与宪法相违背"
+          },
+          {
+            id: "po_b_004",
+            type: "choice",
+            question: "社会主义核心价值观在个人层面的内容是？",
+            options: [
+              "富强、民主、文明、和谐",
+              "自由、平等、公正、法治",
+              "爱国、敬业、诚信、友善",
+              "公正、诚信、友善、和谐"
+            ],
+            answer: 2,
+            explanation: "社会主义核心价值观：国家→富强民主文明和谐，社会→自由平等公正法治，个人→爱国敬业诚信友善"
+          },
+          {
+            id: "po_b_005",
+            type: "input",
+            question: "全面依法治国的总目标是建设___法治体系，建设社会主义法治国家",
+            answer: "中国特色社会主义",
+            explanation: "全面依法治国的总目标：建设中国特色社会主义法治体系"
+          }
+        ]
+      }
+    }
+  },
+
+  history: {
+    name: "历史",
+    icon: "📜",
+    color: "#84cc16",
+    topics: {
+      timeline: {
+        name: "时间轴",
+        questions: [
+          {
+            id: "hi_t_001",
+            type: "choice",
+            question: "鸦片战争爆发于哪一年？",
+            options: ["1839年", "1840年", "1842年", "1856年"],
+            answer: 1,
+            explanation: "1840年，英国以林则徐虎门销烟为借口发动侵略战争"
+          },
+          {
+            id: "hi_t_002",
+            type: "choice",
+            question: "辛亥革命发生在？",
+            options: ["1911年", "1919年", "1921年", "1915年"],
+            answer: 0,
+            explanation: "1911年10月10日武昌起义标志着辛亥革命开始"
+          },
+          {
+            id: "hi_t_003",
+            type: "choice",
+            question: "抗日战争的起点事件是？",
+            options: [
+              "七七事变",
+              "九一八事变",
+              "西安事变",
+              "八一三事变"
+            ],
+            answer: 1,
+            explanation: "1931年九一八事变是抗日战争的起点"
+          },
+          {
+            id: "hi_t_004",
+            type: "choice",
+            question: "新中国的成立时间是？",
+            options: ["1945年10月1日", "1949年10月1日", "1949年7月1日", "1946年10月1日"],
+            answer: 1,
+            explanation: "1949年10月1日，毛泽东在天安门城楼宣布新中国成立"
+          },
+          {
+            id: "hi_t_005",
+            type: "input",
+            question: "戊戌变法发生在___年",
+            answer: "1898",
+            explanation: "1898年，光绪帝颁布一系列变法诏令，史称戊戌变法或百日维新"
+          }
+        ]
+      },
+      important_events: {
+        name: "重要事件",
+        questions: [
+          {
+            id: "hi_e_001",
+            type: "choice",
+            question: "五四运动的直接导火索是？",
+            options: [
+              "巴黎和会上中国外交失败",
+              "袁世凯签订二十一条",
+              "新文化运动的开展",
+              "俄国十月革命的影响"
+            ],
+            answer: 0,
+            explanation: "1919年巴黎和会拒绝中国正当要求，成为五四运动导火索"
+          },
+          {
+            id: "hi_e_002",
+            type: "choice",
+            question: "改革开放是哪一年开始的？",
+            options: ["1976年", "1978年", "1980年", "1982年"],
+            answer: 1,
+            explanation: "1978年党的十一届三中全会开启改革开放新时期"
+          }
+        ]
+      }
+    }
+  }
+};
+
+// 导出题库
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = QUESTION_BANK;
+}
+
+// 游戏状态管理
+const GameState = {
+  // 玩家数据
+  player: {
+    name: '考生',
+    level: 1,
+    xp: 0,
+    xpToNextLevel: 100,
+    streak: 0,
+    totalAnswered: 0,
+    correctAnswers: 0,
+    lastPlayDate: null
+  },
+
+  // 每日任务
+  dailyQuests: [],
+
+  // 闯关进度
+  progress: {},
+
+  // 错题本
+  wrongAnswers: [],
+
+  // 成就
+  achievements: {},
+
+  // 初始化
+  init() {
+    this.load();
+    this.checkDailyReset();
+    this.generateDailyQuests();
+  },
+
+  // 加载存档
+  load() {
+    const saved = localStorage.getItem('njzk_player');
+    if (saved) {
+      const data = JSON.parse(saved);
+      this.player = { ...this.player, ...data.player };
+      this.progress = data.progress || {};
+      this.wrongAnswers = data.wrongAnswers || [];
+      this.achievements = data.achievements || {};
+    }
+  },
+
+  // 保存存档
+  save() {
+    const data = {
+      player: this.player,
+      progress: this.progress,
+      wrongAnswers: this.wrongAnswers,
+      achievements: this.achievements
+    };
+    localStorage.setItem('njzk_player', JSON.stringify(data));
+  },
+
+  // 检查是否需要重置每日任务
+  checkDailyReset() {
+    const today = new Date().toDateString();
+    if (this.player.lastPlayDate !== today) {
+      if (this.player.lastPlayDate) {
+        const lastDate = new Date(this.player.lastPlayDate);
+        const todayDate = new Date(today);
+        const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) {
+          this.player.streak += 1;
+        } else if (diffDays > 1) {
+          this.player.streak = 0;
+        }
+      }
+      this.player.lastPlayDate = today;
+      this.generateDailyQuests();
+      this.save();
+    }
+  },
+
+  // 生成每日任务
+  generateDailyQuests() {
+    const subjects = ['chemistry', 'math', 'chinese', 'english', 'physics', 'politics', 'history'];
+    const questTypes = ['daily', 'challenge', 'review'];
+    
+    this.dailyQuests = [
+      {
+        id: 'q1',
+        type: 'daily',
+        subject: subjects[Math.floor(Math.random() * subjects.length)],
+        title: '选择题练习',
+        description: '完成5道选择题',
+        target: 5,
+        progress: 0,
+        xp: 15,
+        completed: false
+      },
+      {
+        id: 'q2',
+        type: 'daily',
+        subject: subjects[Math.floor(Math.random() * subjects.length)],
+        title: '综合挑战',
+        description: '完成3道解答题',
+        target: 3,
+        progress: 0,
+        xp: 25,
+        completed: false
+      },
+      {
+        id: 'q3',
+        type: 'challenge',
+        subject: 'random',
+        title: '随机挑战',
+        description: '随机抽取3道题',
+        target: 3,
+        progress: 0,
+        xp: 20,
+        completed: false
+      },
+      {
+        id: 'q4',
+        type: 'review',
+        subject: 'wrong',
+        title: '错题复习',
+        description: '复习2道错题',
+        target: 2,
+        progress: 0,
+        xp: 10,
+        completed: false
+      }
+    ];
+
+    // 恢复已完成的进度
+    this.dailyQuests.forEach(quest => {
+      const key = `daily_${quest.id}_${new Date().toDateString()}`;
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        const data = JSON.parse(saved);
+        quest.progress = data.progress;
+        quest.completed = data.completed;
+      }
+    });
+  },
+
+  // 更新任务进度
+  updateQuestProgress(questId, delta) {
+    const quest = this.dailyQuests.find(q => q.id === questId);
+    if (quest && !quest.completed) {
+      quest.progress = Math.min(quest.progress + delta, quest.target);
+      if (quest.progress >= quest.target) {
+        quest.completed = true;
+        this.addXP(quest.xp);
+      }
+      
+      const key = `daily_${quest.id}_${new Date().toDateString()}`;
+      localStorage.setItem(key, JSON.stringify({
+        progress: quest.progress,
+        completed: quest.completed
+      }));
+      
+      this.checkAchievements();
+      this.save();
+      return quest;
+    }
+    return null;
+  },
+
+  // 添加经验值
+  addXP(amount) {
+    this.player.xp += amount;
+    while (this.player.xp >= this.player.xpToNextLevel) {
+      this.player.xp -= this.player.xpToNextLevel;
+      this.player.level += 1;
+      this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
+    }
+    this.checkAchievements();
+    this.save();
+  },
+
+  // 记录答题结果
+  recordAnswer(questionId, correct) {
+    this.player.totalAnswered += 1;
+    if (correct) {
+      this.player.correctAnswers += 1;
+    } else {
+      // 添加到错题本
+      if (!this.wrongAnswers.find(w => w.id === questionId)) {
+        this.wrongAnswers.push({
+          id: questionId,
+          wrongCount: 1,
+          lastWrong: new Date().toISOString()
+        });
+      } else {
+        const record = this.wrongAnswers.find(w => w.id === questionId);
+        record.wrongCount += 1;
+        record.lastWrong = new Date().toISOString();
+      }
+    }
+    this.save();
+  },
+
+  // 获取正确率
+  getAccuracy() {
+    if (this.player.totalAnswered === 0) return 0;
+    return Math.round((this.player.correctAnswers / this.player.totalAnswered) * 100);
+  },
+
+  // 检查成就
+  checkAchievements() {
+    const ach = this.achievements;
+    
+    // 首次登录
+    if (!ach.firstLogin) {
+      ach.firstLogin = true;
+      this.showAchievement('firstLogin', '首次登录', '🎉 打开应用，开启学习之旅！');
+    }
+
+    // 连续打卡
+    if (this.player.streak >= 7 && !ach.streak7) {
+      ach.streak7 = true;
+      this.showAchievement('streak7', '坚持一周', '🔥 连续7天打卡！');
+    }
+    if (this.player.streak >= 30 && !ach.streak30) {
+      ach.streak30 = true;
+      this.showAchievement('streak30', '坚持一个月', '💎 连续30天打卡！');
+    }
+
+    // 答题数量
+    if (this.player.totalAnswered >= 100 && !ach.answer100) {
+      ach.answer100 = true;
+      this.showAchievement('answer100', '初露锋芒', '📝 完成100道题目！');
+    }
+    if (this.player.totalAnswered >= 500 && !ach.answer500) {
+      ach.answer500 = true;
+      this.showAchievement('answer500', '题海无涯', '📚 完成500道题目！');
+    }
+
+    // 正确率
+    if (this.player.totalAnswered >= 50 && this.getAccuracy() >= 80 && !ach.accuracy80) {
+      ach.accuracy80 = true;
+      this.showAchievement('accuracy80', '学有小成', '🎯 正确率达到80%！');
+    }
+
+    // 等级
+    if (this.player.level >= 5 && !ach.level5) {
+      ach.level5 = true;
+      this.showAchievement('level5', '初学者', '⭐ 达到5级！');
+    }
+    if (this.player.level >= 10 && !ach.level10) {
+      ach.level10 = true;
+      this.showAchievement('level10', '进阶者', '🌟 达到10级！');
+    }
+  },
+
+  // 显示成就弹窗
+  showAchievement(id, name, desc) {
+    const event = new CustomEvent('achievement', { detail: { id, name, desc } });
+    window.dispatchEvent(event);
+  },
+
+  // 获取本周统计数据
+  getWeeklyStats() {
+    return {
+      level: this.player.level,
+      xp: this.player.xp,
+      xpToNext: this.player.xpToNextLevel,
+      streak: this.player.streak,
+      totalAnswered: this.player.totalAnswered,
+      accuracy: this.getAccuracy()
+    };
+  }
+};
+
+// 导出
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = GameState;
+}
+
+// 南京中考闯关App - 主逻辑
+let currentView = 'home';
+let currentSubject = null;
+let currentTopic = null;
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let score = 0;
+let sessionCorrect = 0;
+let sessionTotal = 0;
+let quizMode = null; // 'daily' | 'challenge' | 'topic' | 'wrong'
+
+// 页面加载完成后初始化
+document.addEventListener('DOMContentLoaded', () => {
+  GameState.init();
+  renderHome();
+  setupEventListeners();
+});
+
+// 设置事件监听
+function setupEventListeners() {
+  // 成就通知
+  window.addEventListener('achievement', (e) => {
+    showAchievementToast(e.detail);
+  });
+}
+
+// 渲染首页
+function renderHome() {
+  currentView = 'home';
+  const stats = GameState.getWeeklyStats();
+  const accuracy = stats.accuracy;
+  
+  // 计算本周薄弱点
+  const weakPoints = getWeakPoints();
+  
+  // 计算今日任务完成情况
+  const todayProgress = GameState.dailyQuests.filter(q => q.completed).length;
+  
+  document.getElementById('app').innerHTML = `
+    <div class="home-view">
+      <!-- 顶部状态栏 -->
+      <div class="status-bar">
+        <div class="user-info">
+          <span class="level-badge">Lv.${stats.level}</span>
+          <span class="user-name">${GameState.player.name}</span>
+        </div>
+        <div class="streak-badge ${stats.streak > 0 ? 'active' : ''}">
+          🔥 ${stats.streak}天
+        </div>
+      </div>
+
+      <!-- 经验条 -->
+      <div class="xp-bar">
+        <div class="xp-label">
+          <span>💎 ${stats.xp} / ${stats.xpToNext} XP</span>
+          <span>升级还需 ${stats.xpToNext - stats.xp} XP</span>
+        </div>
+        <div class="xp-track">
+          <div class="xp-fill" style="width: ${(stats.xp/stats.xpToNext)*100}%"></div>
+        </div>
+      </div>
+
+      <!-- 统计卡片 -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📝</div>
+          <div class="stat-value">${stats.totalAnswered}</div>
+          <div class="stat-label">已答题</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-value">${accuracy}%</div>
+          <div class="stat-label">正确率</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value">${stats.streak > 0 ? '进行中' : '未开始'}</div>
+          <div class="stat-label">连续打卡</div>
+        </div>
+      </div>
+
+      <!-- 薄弱点提醒 -->
+      ${weakPoints.length > 0 ? `
+      <div class="section">
+        <h3 class="section-title">⚠️ 本周薄弱</h3>
+        <div class="weak-list">
+          ${weakPoints.slice(0, 3).map(w => `
+            <div class="weak-item" onclick="startQuiz('${w.subject}', '${w.topic}', 'weak')">
+              <span class="weak-icon">${getSubjectIcon(w.subject)}</span>
+              <span class="weak-name">${w.name}</span>
+              <span class="weak-rate">${w.accuracy}%</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- 今日任务 -->
+      <div class="section">
+        <h3 class="section-title">📋 今日任务 <span class="quest-count">${todayProgress}/${GameState.dailyQuests.length}</span></h3>
+        <div class="quest-list">
+          ${GameState.dailyQuests.map(q => `
+            <div class="quest-item ${q.completed ? 'completed' : ''}" onclick="handleQuestClick('${q.id}', '${q.type}')">
+              <div class="quest-icon">${q.completed ? '✅' : (q.type === 'challenge' ? '⚡' : q.type === 'review' ? '📖' : '📚')}</div>
+              <div class="quest-info">
+                <div class="quest-title">${q.title}</div>
+                <div class="quest-desc">${q.description}</div>
+                <div class="quest-progress-bar">
+                  <div class="quest-progress-fill" style="width: ${(q.progress/q.target)*100}%"></div>
+                </div>
+              </div>
+              <div class="quest-xp">+${q.xp}XP</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 科目选择 -->
+      <div class="section">
+        <h3 class="section-title">📚 选择科目开始练习</h3>
+        <div class="subject-grid">
+          ${Object.entries(QUESTION_BANK).map(([key, subject]) => `
+            <div class="subject-card" style="--card-color: ${subject.color}" onclick="showTopics('${key}')">
+              <div class="subject-icon">${subject.icon}</div>
+              <div class="subject-name">${subject.name}</div>
+              <div class="subject-topics">${Object.keys(subject.topics).length}个模块</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- 底部导航 -->
+      <div class="bottom-nav">
+        <div class="nav-item active" onclick="renderHome()">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">首页</span>
+        </div>
+        <div class="nav-item" onclick="renderProgress()">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">进度</span>
+        </div>
+        <div class="nav-item" onclick="renderAchievements()">
+          <span class="nav-icon">🏆</span>
+          <span class="nav-label">成就</span>
+        </div>
+        <div class="nav-item" onclick="renderWrongBook()">
+          <span class="nav-icon">📕</span>
+          <span class="nav-label">错题本</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// 处理任务点击
+function handleQuestClick(questId, type) {
+  const quest = GameState.dailyQuests.find(q => q.id === questId);
+  if (quest.completed) {
+    showToast('已完成！明天再来~');
+    return;
+  }
+  
+  if (type === 'daily' || type === 'challenge') {
+    const subject = type === 'challenge' ? 'random' : quest.subject;
+    startQuiz(subject, null, type);
+  } else if (type === 'review') {
+    startQuiz('wrong', null, 'review');
+  }
+}
+
+// 显示科目下的专题
+function showTopics(subjectKey) {
+  currentSubject = subjectKey;
+  const subject = QUESTION_BANK[subjectKey];
+  
+  document.getElementById('app').innerHTML = `
+    <div class="topics-view">
+      <div class="view-header">
+        <button class="back-btn" onclick="renderHome()">← 返回</button>
+        <h2>${subject.icon} ${subject.name}</h2>
+      </div>
+      
+      <div class="topic-list">
+        ${Object.entries(subject.topics).map(([key, topic]) => `
+          <div class="topic-item" onclick="startQuiz('${subjectKey}', '${key}', 'topic')">
+            <div class="topic-icon" style="background: ${subject.color}20; color: ${subject.color}">
+              📖
+            </div>
+            <div class="topic-info">
+              <div class="topic-name">${topic.name}</div>
+              <div class="topic-count">${topic.questions.length}道题</div>
+            </div>
+            <div class="topic-arrow">→</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// 开始答题
+function startQuiz(subject, topic, mode) {
+  quizMode = mode;
+  currentQuestions = [];
+  
+  if (subject === 'random') {
+    // 随机抽题
+    const allQuestions = [];
+    Object.values(QUESTION_BANK).forEach(sub => {
+      Object.values(sub.topics).forEach(t => {
+        allQuestions.push(...t.questions);
+      });
+    });
+    currentQuestions = shuffleArray([...allQuestions]).slice(0, 5);
+  } else if (subject === 'wrong') {
+    // 错题复习
+    const wrongIds = GameState.wrongAnswers.map(w => w.id);
+    if (wrongIds.length === 0) {
+      showToast('暂无错题记录');
+      return;
+    }
+    currentQuestions = findQuestionsByIds(wrongIds).slice(0, 5);
+  } else if (topic) {
+    // 指定专题
+    currentQuestions = [...QUESTION_BANK[subject].topics[topic].questions];
+  } else {
+    // 指定科目，随机选一专题
+    const topics = Object.keys(QUESTION_BANK[subject].topics);
+    const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+    currentQuestions = [...QUESTION_BANK[subject].topics[randomTopic].questions];
+  }
+  
+  if (currentQuestions.length === 0) {
+    showToast('暂无题目');
+    return;
+  }
+  
+  currentQuestionIndex = 0;
+  sessionCorrect = 0;
+  sessionTotal = 0;
+  currentView = 'quiz';
+  renderQuestion();
+}
+
+// 渲染题目
+function renderQuestion() {
+  const q = currentQuestions[currentQuestionIndex];
+  const total = currentQuestions.length;
+  const progress = ((currentQuestionIndex + 1) / total) * 100;
+  const subjectName = getSubjectName(q.id);
+  
+  document.getElementById('app').innerHTML = `
+    <div class="quiz-view">
+      <!-- 顶部进度 -->
+      <div class="quiz-header">
+        <div class="quiz-progress-info">
+          <span class="quiz-number">第 ${currentQuestionIndex + 1} / ${total} 题</span>
+          <span class="quiz-score">得分: ${sessionCorrect}/${sessionTotal}</span>
+        </div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" style="width: ${progress}%"></div>
+        </div>
+      </div>
+
+      <!-- 题目内容 -->
+      <div class="question-container">
+        <div class="question-type-badge">${q.type === 'choice' ? '选择题' : '填空题'}</div>
+        <div class="question-text">${q.question}</div>
+        
+        ${q.type === 'choice' ? `
+          <div class="options-list">
+            ${q.options.map((opt, i) => `
+              <div class="option-item" onclick="selectAnswer(${i})" id="option-${i}">
+                <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                <span class="option-text">${opt}</span>
+              </div>
+            `).join('')}
+          </div>
+        ` : `
+          <div class="input-area">
+            <input type="text" id="answer-input" placeholder="请输入答案..." class="answer-input" />
+            <button class="submit-btn" onclick="submitInputAnswer()">提交</button>
+          </div>
+        `}
+      </div>
+
+      <!-- 结果区域 -->
+      <div id="result-area" class="result-area" style="display: none;"></div>
+    </div>
+  `;
+}
+
+// 选择答案（选择题）
+function selectAnswer(index) {
+  const q = currentQuestions[currentQuestionIndex];
+  const correct = index === q.answer;
+  showResult(correct, q.options[index], q.options[q.answer], q.explanation);
+}
+
+// 提交填空答案
+function submitInputAnswer() {
+  const input = document.getElementById('answer-input');
+  const userAnswer = input.value.trim();
+  const q = currentQuestions[currentQuestionIndex];
+  
+  if (!userAnswer) {
+    showToast('请输入答案');
+    return;
+  }
+  
+  // 简化比较：忽略空格、大小写
+  const normalizedUser = userAnswer.replace(/\s+/g, '').toLowerCase();
+  const normalizedCorrect = q.answer.replace(/\s+/g, '').toLowerCase();
+  const correct = normalizedUser === normalizedCorrect;
+  
+  showResult(correct, userAnswer, q.answer, q.explanation);
+}
+
+// 显示答题结果
+function showResult(correct, userAnswer, correctAnswer, explanation) {
+  sessionTotal += 1;
+  if (correct) {
+    sessionCorrect += 1;
+  }
+  
+  // 记录到GameState
+  const q = currentQuestions[currentQuestionIndex];
+  GameState.recordAnswer(q.id, correct);
+  
+  // 更新任务进度
+  if (quizMode === 'daily' || quizMode === 'challenge') {
+    const quest = GameState.dailyQuests.find(q => q.type === quizMode);
+    if (quest) {
+      GameState.updateQuestProgress(quest.id, 1);
+    }
+  }
+  
+  // 显示结果
+  const resultArea = document.getElementById('result-area');
+  resultArea.style.display = 'block';
+  resultArea.innerHTML = `
+    <div class="result-card ${correct ? 'correct' : 'wrong'}">
+      <div class="result-icon">${correct ? '🎉' : '😢'}</div>
+      <div class="result-text">${correct ? '回答正确！' : '回答错误'}</div>
+      ${!correct ? `
+        <div class="answer-compare">
+          <div class="your-answer">你的答案: ${userAnswer}</div>
+          <div class="correct-answer">正确答案: ${correctAnswer}</div>
+        </div>
+      ` : ''}
+      <div class="explanation">
+        <strong>解析：</strong>${explanation}
+      </div>
+      <button class="next-btn" onclick="nextQuestion()">
+        ${currentQuestionIndex < currentQuestions.length - 1 ? '下一题 →' : '查看结果'}
+      </button>
+    </div>
+  `;
+  
+  // 禁用选项
+  document.querySelectorAll('.option-item').forEach((opt, i) => {
+    opt.style.pointerEvents = 'none';
+    if (i === currentQuestions[currentQuestionIndex].answer) {
+      opt.classList.add('correct-option');
+    } else if (!correct && i === parseInt(document.querySelector('.option-item:hover')?.id.split('-')[1])) {
+      opt.classList.add('wrong-option');
+    }
+  });
+}
+
+// 下一题
+function nextQuestion() {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < currentQuestions.length) {
+    renderQuestion();
+  } else {
+    showQuizResult();
+  }
+}
+
+// 显示答题结果页
+function showQuizResult() {
+  const accuracy = sessionTotal > 0 ? Math.round((sessionCorrect / sessionTotal) * 100) : 0;
+  const xpEarned = sessionCorrect * 5;
+  
+  // 添加经验值
+  GameState.addXP(xpEarned);
+  
+  currentView = 'result';
+  document.getElementById('app').innerHTML = `
+    <div class="result-view">
+      <div class="result-summary">
+        <div class="result-grade">
+          ${accuracy >= 80 ? '🌟' : accuracy >= 60 ? '👍' : '💪'}
+        </div>
+        <h2>${accuracy >= 80 ? '太棒了！' : accuracy >= 60 ? '还不错！' : '继续加油！'}</h2>
+        <div class="result-stats">
+          <div class="result-stat">
+            <span class="stat-value">${sessionCorrect}/${sessionTotal}</span>
+            <span class="stat-label">正确数</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-value">${accuracy}%</span>
+            <span class="stat-label">正确率</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-value">+${xpEarned}</span>
+            <span class="stat-label">获得XP</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="result-actions">
+        <button class="action-btn primary" onclick="renderHome()">返回首页</button>
+        <button class="action-btn secondary" onclick="redoQuiz()">再做一遍</button>
+      </div>
+    </div>
+  `;
+}
+
+// 重做本题
+function redoQuiz() {
+  startQuiz(currentSubject, currentTopic, quizMode);
+}
+
+// 渲染进度页面
+function renderProgress() {
+  currentView = 'progress';
+  const stats = GameState.getWeeklyStats();
+  const subjectProgress = {};
+  
+  // 统计各科目答题情况
+  Object.keys(QUESTION_BANK).forEach(key => {
+    subjectProgress[key] = { total: 0, correct: 0 };
+  });
+  
+  // 这个简化处理，实际应该记录每题对应的科目
+  document.getElementById('app').innerHTML = `
+    <div class="progress-view">
+      <div class="view-header">
+        <button class="back-btn" onclick="renderHome()">← 返回</button>
+        <h2>📊 学习进度</h2>
+      </div>
+      
+      <div class="progress-summary">
+        <div class="progress-card">
+          <div class="progress-icon">📚</div>
+          <div class="progress-info">
+            <div class="progress-value">${GameState.player.totalAnswered}</div>
+            <div class="progress-label">总答题数</div>
+          </div>
+        </div>
+        <div class="progress-card">
+          <div class="progress-icon">🎯</div>
+          <div class="progress-info">
+            <div class="progress-value">${stats.accuracy}%</div>
+            <div class="progress-label">总体正确率</div>
+          </div>
+        </div>
+        <div class="progress-card">
+          <div class="progress-icon">🔥</div>
+          <div class="progress-info">
+            <div class="progress-value">${stats.streak}</div>
+            <div class="progress-label">连续打卡</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="level-section">
+        <h3>等级进度</h3>
+        <div class="level-info">
+          <span>Lv.${stats.level}</span>
+          <span>${stats.xp} / ${stats.xpToNext}</span>
+        </div>
+        <div class="level-bar">
+          <div class="level-fill" style="width: ${(stats.xp/stats.xpToNext)*100}%"></div>
+        </div>
+        <div class="level-next">距离下一级还需 ${stats.xpToNext - stats.xp} XP</div>
+      </div>
+
+      <div class="subject-progress">
+        <h3>各科掌握情况</h3>
+        ${Object.entries(QUESTION_BANK).map(([key, subject]) => `
+          <div class="subject-progress-item">
+            <div class="subject-progress-info">
+              <span class="subject-icon">${subject.icon}</span>
+              <span class="subject-name">${subject.name}</span>
+            </div>
+            <div class="subject-progress-bar">
+              <div class="subject-progress-fill" style="width: ${getSubjectMastery(key)}%; background: ${subject.color}"></div>
+            </div>
+            <span class="subject-progress-value">${getSubjectMastery(key)}%</span>
+          </div>
+        `).join('')}
+      </div>
+
+      <button class="back-home-btn" onclick="renderHome()">返回首页</button>
+    </div>
+  `;
+}
+
+// 渲染成就页面
+function renderAchievements() {
+  currentView = 'achievements';
+  const ach = GameState.achievements;
+  
+  const allAchievements = [
+    { id: 'firstLogin', name: '首次登录', desc: '打开应用', icon: '🎉', condition: '首次' },
+    { id: 'streak7', name: '坚持一周', desc: '连续7天打卡', icon: '🔥', condition: '7天' },
+    { id: 'streak30', name: '坚持一个月', desc: '连续30天打卡', icon: '💎', condition: '30天' },
+    { id: 'answer100', name: '初露锋芒', desc: '完成100道题', icon: '📝', condition: '100题' },
+    { id: 'answer500', name: '题海无涯', desc: '完成500道题', icon: '📚', condition: '500题' },
+    { id: 'accuracy80', name: '学有小成', desc: '正确率达到80%', icon: '🎯', condition: '80%' },
+    { id: 'level5', name: '初学者', desc: '达到5级', icon: '⭐', condition: 'Lv.5' },
+    { id: 'level10', name: '进阶者', desc: '达到10级', icon: '🌟', condition: 'Lv.10' }
+  ];
+  
+  document.getElementById('app').innerHTML = `
+    <div class="achievements-view">
+      <div class="view-header">
+        <button class="back-btn" onclick="renderHome()">← 返回</button>
+        <h2>🏆 成就墙</h2>
+      </div>
+      
+      <div class="achievements-grid">
+        ${allAchievements.map(a => `
+          <div class="achievement-card ${ach[a.id] ? 'unlocked' : 'locked'}">
+            <div class="achievement-icon">${ach[a.id] ? a.icon : '🔒'}</div>
+            <div class="achievement-name">${a.name}</div>
+            <div class="achievement-desc">${a.desc}</div>
+            ${ach[a.id] ? '<div class="achievement-badge">已解锁</div>' : `<div class="achievement-condition">需${a.condition}</div>`}
+          </div>
+        `).join('')}
+      </div>
+      
+      <button class="back-home-btn" onclick="renderHome()">返回首页</button>
+    </div>
+  `;
+}
+
+// 渲染错题本
+function renderWrongBook() {
+  currentView = 'wrongbook';
+  const wrongAnswers = GameState.wrongAnswers;
+  
+  document.getElementById('app').innerHTML = `
+    <div class="wrongbook-view">
+      <div class="view-header">
+        <button class="back-btn" onclick="renderHome()">← 返回</button>
+        <h2>📕 错题本</h2>
+      </div>
+      
+      ${wrongAnswers.length === 0 ? `
+        <div class="empty-state">
+          <div class="empty-icon">🎉</div>
+          <div class="empty-text">太棒了！暂无错题记录</div>
+        </div>
+      ` : `
+        <div class="wrong-list">
+          ${wrongAnswers.map(w => {
+            const q = findQuestionById(w.id);
+            return q ? `
+              <div class="wrong-item">
+                <div class="wrong-question">${q.question}</div>
+                <div class="wrong-answer">
+                  <span class="wrong-label">正确答案：</span>
+                  <span class="wrong-value">${q.type === 'choice' ? q.options[q.answer] : q.answer}</span>
+                </div>
+                <div class="wrong-times">做错${w.wrongCount}次</div>
+                <button class="review-btn" onclick="startReview('${w.id}')">复习</button>
+              </div>
+            ` : '';
+          }).join('')}
+        </div>
+      `}
+      
+      <button class="back-home-btn" onclick="renderHome()">返回首页</button>
+    </div>
+  `;
+}
+
+// 开始复习某道错题
+function startReview(questionId) {
+  const q = findQuestionById(questionId);
+  if (q) {
+    currentQuestions = [q];
+    currentQuestionIndex = 0;
+    sessionCorrect = 0;
+    sessionTotal = 0;
+    quizMode = 'review';
+    renderQuestion();
+  }
+}
+
+// 辅助函数
+function getSubjectIcon(subjectKey) {
+  const icons = {
+    chemistry: '🧪', math: '📐', chinese: '📖',
+    english: '🔤', physics: '⚡', politics: '⚖️', history: '📜'
+  };
+  return icons[subjectKey] || '📚';
+}
+
+function getSubjectName(questionId) {
+  const prefix = questionId.split('_')[0];
+  const map = { ch: '化学', ma: '数学', cn: '语文', en: '英语', ph: '物理', po: '道法', hi: '历史' };
+  return map[prefix] || '未知';
+}
+
+function getSubjectMastery(subjectKey) {
+  // 简化：随机生成，实际应该根据答题情况计算
+  return Math.min(100, Math.floor(Math.random() * 40 + 60));
+}
+
+function getWeakPoints() {
+  // 简化：返回随机薄弱点
+  const subjects = Object.keys(QUESTION_BANK);
+  const weak = [];
+  for (let i = 0; i < 3; i++) {
+    const key = subjects[i];
+    if (QUESTION_BANK[key]) {
+      const topics = Object.keys(QUESTION_BANK[key].topics);
+      const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+      weak.push({
+        subject: key,
+        topic: randomTopic,
+        name: QUESTION_BANK[key].topics[randomTopic].name,
+        accuracy: Math.floor(Math.random() * 30 + 40)
+      });
+    }
+  }
+  return weak;
+}
+
+function findQuestionById(id) {
+  for (const subject of Object.values(QUESTION_BANK)) {
+    for (const topic of Object.values(subject.topics)) {
+      const q = topic.questions.find(q => q.id === id);
+      if (q) return q;
+    }
+  }
+  return null;
+}
+
+function findQuestionsByIds(ids) {
+  return ids.map(id => findQuestionById(id)).filter(q => q !== null);
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
+}
+
+function showAchievementToast(detail) {
+  const toast = document.createElement('div');
+  toast.className = 'achievement-toast';
+  toast.innerHTML = `
+    <div class="achievement-toast-icon">🏆</div>
+    <div class="achievement-toast-content">
+      <div class="achievement-toast-title">解锁成就：${detail.name}</div>
+      <div class="achievement-toast-desc">${detail.desc}</div>
+    </div>
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+</script>
 </body>
 </html>
