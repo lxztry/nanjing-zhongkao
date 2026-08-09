@@ -427,7 +427,7 @@ const QUESTION_BANK = {
           {
             id: "cn_s_001",
             type: "choice",
-            question: "《岳阳楼记》中"先天下之忧而忧，后天下之乐而乐"表达了什么情感？",
+            question: "《岳阳楼记》中'先天下之忧而忧，后天下之乐而乐'表达了什么情感？",
             options: ["思乡之情", "爱国忧民", "离愁别绪", "山水之乐"],
             answer: 1,
             explanation: "这句话表达了范仲淹以天下为己任的爱国忧民情怀"
@@ -443,12 +443,12 @@ const QUESTION_BANK = {
               "大漠孤烟直，长河落日圆"
             ],
             answer: 0,
-            explanation: ""烽火"借代战争，"家书"借代书信，是借代手法"
+            explanation: "'烽火'借代战争，'家书'借代书信，是借代手法"
           },
           {
             id: "cn_s_003",
             type: "input",
-            question: "《出师表》中"受任于败军之际，奉命于危难之间"说的是谁？",
+            question: "《出师表》中'受任于败军之际，奉命于危难之间'说的是谁？",
             answer: "诸葛亮",
             explanation: "诸葛亮在刘备兵败后接受托孤重任"
           },
@@ -493,7 +493,7 @@ const QUESTION_BANK = {
           {
             id: "cn_w_002",
             type: "choice",
-            question: "写记叙文时，"细节描写"的作用是？",
+            question: "写记叙文时，'细节描写'的作用是？",
             options: [
               "凑字数",
               "使文章更生动具体",
@@ -749,7 +749,7 @@ const QUESTION_BANK = {
           {
             id: "po_b_003",
             type: "choice",
-            question: ""法治"的核心是？",
+            question: "'法治'的核心是？",
             options: [
               "依法治国",
               "宪法至上",
