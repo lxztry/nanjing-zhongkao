@@ -1,0 +1,1126 @@
+/* 南京中考闯关App - 样式 */
+
+/* ===== 基础样式 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.3);
+  --success: #10b981;
+  --success-glow: rgba(16, 185, 129, 0.3);
+  --danger: #ef4444;
+  --warning: #f59e0b;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+/* ===== 首页样式 ===== */
+.home-view {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 状态栏 */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.streak-badge {
+  background: var(--bg-card);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.streak-badge.active {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+}
+
+/* 经验条 */
+.xp-bar {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.xp-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.xp-track {
+  height: 12px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* 统计卡片 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 区域标题 */
+.section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quest-count {
+  background: var(--accent);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+/* 薄弱点列表 */
+.weak-list {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.weak-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--bg-card);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.weak-item:last-child {
+  border-bottom: none;
+}
+
+.weak-item:hover {
+  background: var(--bg-card);
+}
+
+.weak-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+.weak-name {
+  flex: 1;
+  font-size: 14px;
+}
+
+.weak-rate {
+  background: var(--danger);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+/* 任务列表 */
+.quest-list {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.quest-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--bg-card);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.quest-item:last-child {
+  border-bottom: none;
+}
+
+.quest-item:hover {
+  background: var(--bg-card);
+}
+
+.quest-item.completed {
+  opacity: 0.6;
+}
+
+.quest-icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.quest-info {
+  flex: 1;
+}
+
+.quest-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.quest-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 4px 0;
+}
+
+.quest-progress-bar {
+  height: 4px;
+  background: var(--bg-primary);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: var(--success);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.quest-xp {
+  background: var(--accent);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 科目网格 */
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.subject-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.subject-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-color);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.subject-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.subject-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.subject-topics {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* 底部导航 */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  border-top: 1px solid var(--bg-card);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.2s;
+  color: var(--text-secondary);
+}
+
+.nav-item.active {
+  color: var(--accent);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.nav-icon {
+  font-size: 22px;
+}
+
+.nav-label {
+  font-size: 11px;
+}
+
+/* ===== 题目页面 ===== */
+.quiz-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.quiz-header {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.quiz-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.quiz-score {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.quiz-progress-bar {
+  height: 6px;
+  background: var(--bg-card);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #8b5cf6);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* 题目容器 */
+.question-container {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.question-type-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+.question-text {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+/* 选项列表 */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  padding: 14px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.option-item:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.option-item.correct-option {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.option-item.wrong-option {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.option-letter {
+  width: 32px;
+  height: 32px;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.option-text {
+  font-size: 15px;
+}
+
+/* 填空题输入 */
+.input-area {
+  display: flex;
+  gap: 12px;
+}
+
+.answer-input {
+  flex: 1;
+  background: var(--bg-card);
+  border: 2px solid var(--bg-card);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.answer-input:focus {
+  border-color: var(--accent);
+}
+
+.submit-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.submit-btn:hover {
+  transform: scale(1.05);
+}
+
+/* 结果区域 */
+.result-area {
+  margin-top: 16px;
+}
+
+.result-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-card.correct {
+  border: 2px solid var(--success);
+}
+
+.result-card.wrong {
+  border: 2px solid var(--danger);
+}
+
+.result-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.result-text {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.result-card.correct .result-text {
+  color: var(--success);
+}
+
+.result-card.wrong .result-text {
+  color: var(--danger);
+}
+
+.answer-compare {
+  background: var(--bg-card);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.your-answer {
+  color: var(--danger);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.correct-answer {
+  color: var(--success);
+  font-size: 14px;
+}
+
+.explanation {
+  background: var(--bg-card);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+}
+
+.explanation strong {
+  color: var(--text-primary);
+}
+
+.next-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.next-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== 结果页面 ===== */
+.result-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  animation: fadeIn 0.3s ease;
+}
+
+.result-summary {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.result-grade {
+  font-size: 80px;
+  margin-bottom: 16px;
+}
+
+.result-summary h2 {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.result-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.result-stat {
+  text-align: center;
+}
+
+.result-stat .stat-value {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.result-stat .stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.result-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.action-btn {
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+}
+
+.action-btn.primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+}
+
+.action-btn.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+/* ===== 专题选择页面 ===== */
+.topics-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.view-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.back-btn {
+  background: var(--bg-secondary);
+  border: none;
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: var(--bg-card);
+}
+
+.view-header h2 {
+  font-size: 20px;
+}
+
+.topic-list {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.topic-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--bg-card);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.topic-item:last-child {
+  border-bottom: none;
+}
+
+.topic-item:hover {
+  background: var(--bg-card);
+}
+
+.topic-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-right: 16px;
+}
+
+.topic-info {
+  flex: 1;
+}
+
+.topic-name {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.topic-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.topic-arrow {
+  color: var(--text-secondary);
+  font-size: 18px;
+}
+
+/* ===== 进度页面 ===== */
+.progress-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.progress-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.progress-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.progress-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.progress-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.level-section {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.level-section h3 {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.level-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.level-bar {
+  height: 12px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.level-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+.level-next {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.subject-progress {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.subject-progress h3 {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.subject-progress-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.subject-progress-item:last-child {
+  margin-bottom: 0;
+}
+
+.subject-progress-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 80px;
+}
+
+.subject-progress-info .subject-icon {
+  font-size: 18px;
+}
+
+.subject-progress-info .subject-name {
+  font-size: 13px;
+}
+
+.subject-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.subject-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.subject-progress-value {
+  font-size: 13px;
+  font-weight: 600;
+  width: 40px;
+  text-align: right;
+}
+
+.back-home-btn {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.back-home-btn:hover {
+  transform: scale(1.02);
+}
+
+/* ===== 成就页面 ===== */
+.achievements-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.achievement-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.achievement-card.unlocked {
+  border-color: var(--warning);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+.achievement-card.locked {
+  opacity: 0.5;
+}
+
+.achievement-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.achievement-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.achievement-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.achievement-badge {
+  background: var(--warning);
+  color: white;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.achievement-condition {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ===== 错题本页面 ===== */
+.wrongbook-view {
+  animation: fadeIn 0.3s ease;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  font-size: 60px;
+  margin-bottom: 16px;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.wrong-list {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.wrong-item {
+  padding: 16px;
+  border-bottom: 1px solid var(--bg-card);
+}
+
+.wrong-item:last-child {
+  border-bottom: none;
+}
+
+.wrong-question {
+  font-size: 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.wrong-answer {
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.wrong-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.wrong-value {
+  color: var(--success);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.wrong-times {
+  font-size: 11px;
+  color: var(--danger);
+  margin-bottom: 8px;
+}
+
+.review-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.review-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== 提示 ===== */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.achievement-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+  animation: slideDown 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translate(-50%, -30px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.achievement-toast-icon {
+  font-size: 28px;
+}
+
+.achievement-toast-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.achievement-toast-desc {
+  font-size: 12px;
+  opacity: 0.9;
+}
